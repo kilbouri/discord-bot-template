@@ -10,6 +10,8 @@ interface EventType {
 }
 
 const LoadEvents = async (client: Client) => {
+    logger.info(`Loading events from '${__dirname}'`);
+
     const modules = (await readdir(__dirname)) //
         .filter((file) => file.endsWith(".ts") || file.endsWith(".js"))
         .map((name) => name.slice(0, -path.extname(name).length))

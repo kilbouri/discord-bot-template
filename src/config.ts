@@ -19,7 +19,7 @@ interface ConfigType {
 
 const Config: ConfigType = (() => {
     const configPath = path.resolve(__dirname, "../config.json5");
-    logger.info(`Reading configuration from ${configPath}`);
+    logger.info(`Reading configuration from '${configPath}'`);
 
     const data = readFileSync(configPath, "utf-8");
     const loadedConfig = parseJSON5(data) as ConfigType;

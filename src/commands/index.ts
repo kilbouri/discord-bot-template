@@ -8,6 +8,7 @@ import {
     SlashCommandBuilder,
     SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
+import {logger} from "../logger";
 
 interface CommandType {
     data:
@@ -18,12 +19,17 @@ interface CommandType {
     execute: (interaction: ChatInputCommandInteraction<CacheType>) => Promise<any>;
 }
 
+const commandCache = new Map<string, CommandType>();
+let commandsLoaded = false;
+
 const LoadCommands = async (options: {
     guild?: string;
     apiToken: string;
     appId: string;
 }) => {
     const {guild, apiToken, appId} = options;
+
+    logger.info(`Loading commands from '${__dirname}'`);
 
     const modules = (await readdir(__dirname)) //
         .filter((file) => file.endsWith(".ts") || file.endsWith(".js"))
@@ -38,6 +44,20 @@ const LoadCommands = async (options: {
 
     const commandData = modules.map((module) => module.command.data.toJSON());
     await rest.put(route, {body: commandData});
+
+    modules.forEach((module) =>
+        commandCache.set(module.command.data.name, module.command)
+    );
+
+    commandsLoaded = true;
 };
 
-export {LoadCommands, CommandType};
+const GetCommand = (name: string) => {
+    if (!commandsLoaded) {
+        throw "LoadCommands must finish before GetCommand may be called";
+    }
+
+    return commandCache.get(name);
+};
+
+export {GetCommand, LoadCommands, CommandType};
