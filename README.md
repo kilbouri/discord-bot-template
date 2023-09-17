@@ -1,19 +1,13 @@
-# Among Us Utility Bot
+# A Discord Bot
 
-A simple Discord bot that provides utilities for groups looking to play Among Us together.
+This is a template!
 
 ## Features
 
-- Random map selection (`config.example.json5` is preconfigured with the stock Among Us maps)
-- Random mode selection (`config.example.json5` is preconfigured with the stock Among Us modes)
-- Random selection from up to 10 strings
-
-### Screenshots
-
-| Random Mode                                                       | Random Map                                                      |
-| ----------------------------------------------------------------- | --------------------------------------------------------------- |
-| ![Random mode choice in Discord](./readme_images/random_mode.png) | ![Random map choice in Discord](./readme_images/random_map.png) |
-
+- TypeScript
+- Minimal configuration setup
+- Slash command and event handlers
+- Dockerfile for deployment
 
 ## Build & Run
 
@@ -23,6 +17,18 @@ Just run `yarn dev`. No build is required, as the bot will run in `ts-node`. You
 
 ### Production/Hosting
 
-Use `yarn build` to build the bot, then `yarn host` to start the bot.
+#### Option 1 - Docker
+
+1. Copy `config.example.json5` to `config.json5` and fill in the fields
+2. Build a docker image: `docker build -t bot .`
+3. Start a container from that image: `docker run bot`
+
+Done!
+
+#### Option 2 - Yarn
+
+1. Copy `config.example.json5` to `config.json5` and fill in the fields
+2. `yarn build` to transpile TypeScript to JavaScript
+3. `yarn host` to start the bot
 
 > Building and hosting are separated because changes to `config.json5` do not require a complete re-build of the bot.
