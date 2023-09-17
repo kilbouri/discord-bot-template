@@ -16,7 +16,7 @@ const pingCommand: CommandType = {
     execute: async (intr: ChatInputCommandInteraction<CacheType>) => {
         const secretNumber = randomInt(0, 10);
         const secretNumberButton = new ButtonBuilder()
-            .setLabel("Random number")
+            .setLabel("Secret Number")
             .setStyle(ButtonStyle.Primary)
             .setCustomId(BuildButtonId("secretNumber", secretNumber));
 
