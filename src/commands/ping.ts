@@ -1,11 +1,29 @@
 import {SlashCommandBooleanOption, SlashCommandBuilder} from "@discordjs/builders";
-import {CacheType, ChatInputCommandInteraction} from "discord.js";
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    CacheType,
+    ChatInputCommandInteraction,
+    MessageActionRowComponentBuilder,
+} from "discord.js";
 import {CommandType} from ".";
+import {BuildButtonId} from "../buttons";
+import {randomInt} from "crypto";
 
 const pingCommand: CommandType = {
     data: new SlashCommandBuilder().setName("ping").setDescription("Ping. Pong?"),
     execute: async (intr: ChatInputCommandInteraction<CacheType>) => {
-        return intr.reply("Pong!");
+        const secretNumber = randomInt(0, 10);
+        const secretNumberButton = new ButtonBuilder()
+            .setLabel("Random number")
+            .setStyle(ButtonStyle.Primary)
+            .setCustomId(BuildButtonId("secretNumber", secretNumber));
+
+        const actionRow = new ActionRowBuilder<MessageActionRowComponentBuilder>() //
+            .addComponents(secretNumberButton);
+
+        return intr.reply({content: "Pong!", components: [actionRow]});
     },
 };
 

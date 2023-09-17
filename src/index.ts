@@ -1,3 +1,4 @@
+import {LoadButtons} from "./buttons";
 import {LoadCommands} from "./commands";
 import {Config} from "./config";
 import {LoadEvents} from "./events";
@@ -17,6 +18,7 @@ const start = async () => {
     }
 
     await LoadCommands(apiConfig);
+    await LoadButtons();
     await LoadEvents(client);
 
     client.login(apiConfig.apiToken);
