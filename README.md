@@ -6,7 +6,10 @@ This is a template!
 
 - TypeScript
 - Minimal configuration setup
-- Slash command and event handlers
+- Out of box support for the following:
+  - Slash commands (`src/commands`)
+  - Buttons (`src/buttons`)
+  - Events (`src/events`)
 - Dockerfile for deployment
 
 ## Build & Run
