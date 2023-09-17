@@ -1,8 +1,22 @@
 import {readdir} from "fs/promises";
 import path from "path";
-import {CommandType} from "../types";
-import {REST, Routes} from "discord.js";
-import {logger} from "../logger";
+import {
+    CacheType,
+    ChatInputCommandInteraction,
+    REST,
+    Routes,
+    SlashCommandBuilder,
+    SlashCommandSubcommandsOnlyBuilder,
+} from "discord.js";
+
+interface CommandType {
+    data:
+        | SlashCommandBuilder
+        | SlashCommandSubcommandsOnlyBuilder
+        | Omit<SlashCommandBuilder, "addSubcommandGroup" | "addSubcommand">;
+    deferMode: "NORMAL" | "EPHEMERAL" | "NO-DEFER";
+    execute: (interaction: ChatInputCommandInteraction<CacheType>) => Promise<any>;
+}
 
 const LoadCommands = async (options: {
     guild?: string;
@@ -26,4 +40,4 @@ const LoadCommands = async (options: {
     await rest.put(route, {body: commandData});
 };
 
-export {LoadCommands};
+export {LoadCommands, CommandType};

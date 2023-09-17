@@ -1,6 +1,6 @@
 import {SlashCommandBooleanOption, SlashCommandBuilder} from "@discordjs/builders";
 import {CacheType, ChatInputCommandInteraction} from "discord.js";
-import {CommandType} from "../types";
+import {CommandType} from ".";
 
 const pingCommand: CommandType = {
     data: new SlashCommandBuilder()

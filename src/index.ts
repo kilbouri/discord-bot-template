@@ -1,14 +1,25 @@
 import {LoadCommands} from "./commands";
 import {Config} from "./config";
+import {LoadEvents} from "./events";
 import {logger} from "./logger";
 import {Client} from "discord.js";
 
 let client: Client | undefined;
 
-const start = async (): Promise<void> => {
+const start = async () => {
+    const apiConfig = Config.devMode ? Config.development : Config.production;
+
     client = new Client({intents: []});
 
-    await LoadCommands(Config.devMode ? Config.development : Config.production);
+    if (Config.devMode) {
+        client.on("error", logger.error);
+        client.on("warn", logger.warn);
+    }
+
+    await LoadCommands(apiConfig);
+    await LoadEvents(client);
+
+    client.login(apiConfig.apiToken);
 };
 
 // graceful exit handler
@@ -17,7 +28,7 @@ require("shutdown-handler").on("exit", (event: Event) => {
 
     client?.emit("shutdown");
 
-    logger.info("Graceful shutdown completed. Exiting...");
+    logger.info("Shutdown completed. Exiting...");
     process.exit();
 });
 
